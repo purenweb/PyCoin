@@ -58,6 +58,48 @@ def prvGetData():
         # with open('c:\\temp\\o1.txt', 'w') as f:
         #  json.dump(data, f)
 
+        def deep_search(needles, haystack):
+            found = {}
+            if type(needles) != type([]):
+                needles = [needles]
+
+            if type(haystack) == type(dict()):
+                for needle in needles:
+                    if needle in haystack.keys():
+                        found[needle] = haystack[needle]
+                    elif len(haystack.keys()) > 0:
+                        for key in haystack.keys():
+                            result = deep_search(needle, haystack[key])
+                            if result:
+                                for k, v in result.items():
+                                    found[k] = v
+            elif type(haystack) == type([]):
+                for node in haystack:
+                    result = deep_search(needles, node)
+                    if result:
+                        for k, v in result.items():
+                            found[k] = v
+            return found
+
+        xxx=deep_search(["Dogecoin", "price"], json.loads(response.text))
+
+        # def find_values(id, json_repr):
+        #     results = []
+        #
+        #     def _decode_dict(a_dict):
+        #         try:
+        #             results.append(a_dict[id])
+        #         except KeyError:
+        #             pass
+        #         return a_dict
+        #
+        #     json.loads(json_repr, object_hook=_decode_dict)  # Return value ignored.
+        #     return results
+        #
+        # json_repr =data
+        # print(find_values('Dogecoin', json_repr))
+
+
         y = json.dumps(data, indent=4, sort_keys=True)
         with open('c:\\temp\\o2.txt', 'w') as f1:
             json.dump(y, f1)
