@@ -15,8 +15,6 @@ from tkinter import *
 #from DataConn import *
 import ReadJson
 from ReadJson import *
-aa=ReadJson()
-x1,x2,x3,x4=aa.split(",")
 
 # def PubExecQuery(sSql):
 #     IsEXE = (sSql[0:6])
@@ -49,59 +47,62 @@ a1 = "ooo"
 
 
 def prvGetData():
-    url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
-    parameters = {'start': '1', 'limit': '300', 'convert': 'USD'}
-    headers = {'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': '43f1bd77-3f44-46a4-9243-713738fabb72', }
-
-    session = Session()
-    session.headers.update(headers)
-
+    # url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
+    # parameters = {'start': '1', 'limit': '300', 'convert': 'USD'}
+    # headers = {'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': '43f1bd77-3f44-46a4-9243-713738fabb72', }
+    #
+    # session = Session()
+    # session.headers.update(headers)
+    #
+    # try:
+    #     response = session.get(url, params=parameters)
+    #     data = json.loads(response.text)
+    #     # print(data)
+    #     # with open('c:\\temp\\o1.txt', 'w') as f:
+    #     #  json.dump(data, f)
+    #
+    #
+    #     y = json.dumps(data, indent=4, sort_keys=True)
+    #     with open('c:\\temp\\o2.txt', 'w') as f1:
+    #         json.dump(y, f1)
+    #
+    #     def prvRes(Coin, y):
+    #         iCoinPos = y.find(Coin)
+    #         sCoinFull = (y[iCoinPos:4000 + iCoinPos])
+    #         iCoinPricePos = sCoinFull.find("price")
+    #         sCoinPriceFull = (sCoinFull[iCoinPricePos + 8:iCoinPricePos + 30])
+    #         iPriceSplit = sCoinPriceFull.find(",")
+    #         res = (sCoinPriceFull[0:iPriceSplit])
+    #         PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('" + Coin + "',1," + res + ")")
+    #         return (sCoinPriceFull[0:iPriceSplit])
+    #
+    #     import datetime as dt
+    #     mytime = dt.datetime.strptime(y[212:220], '%H:%M:%S').time()
+    #
+    #     mydatetime = dt.datetime.combine(dt.date.today(), mytime)+ timedelta(hours=2)
+    #     today = mydatetime.strftime("%d/%m/%Y %H:%M:%S")
+    #
+    #     from datetime import date
+    #
+    #     a1 = prvRes("Dogecoin", y)
+    #     a2 = prvRes("Bitcoin", y)
+    #     a3 = prvRes("XRP", y)
+    #     a4 = prvRes("BitTorrent", y)
     try:
-        response = session.get(url, params=parameters)
-        data = json.loads(response.text)
-        # print(data)
-        # with open('c:\\temp\\o1.txt', 'w') as f:
-        #  json.dump(data, f)
+        GetNewData = ReadJson()
+        Dogecoin, Bitcoin, XRP, BitTorrent, sTime = GetNewData.split(",")
 
-
-        y = json.dumps(data, indent=4, sort_keys=True)
-        with open('c:\\temp\\o2.txt', 'w') as f1:
-            json.dump(y, f1)
-
-        def prvRes(Coin, y):
-            iCoinPos = y.find(Coin)
-            sCoinFull = (y[iCoinPos:4000 + iCoinPos])
-            iCoinPricePos = sCoinFull.find("price")
-            sCoinPriceFull = (sCoinFull[iCoinPricePos + 8:iCoinPricePos + 30])
-            iPriceSplit = sCoinPriceFull.find(",")
-            res = (sCoinPriceFull[0:iPriceSplit])
-            PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('" + Coin + "',1," + res + ")")
-            return (sCoinPriceFull[0:iPriceSplit])
-
-        import datetime as dt
-        mytime = dt.datetime.strptime(y[212:220], '%H:%M:%S').time()
-
-        mydatetime = dt.datetime.combine(dt.date.today(), mytime)+ timedelta(hours=2)
-        today = mydatetime.strftime("%d/%m/%Y %H:%M:%S")
-
-        from datetime import date
-
-        a1 = prvRes("Dogecoin", y)
-        a2 = prvRes("Bitcoin", y)
-        a3 = prvRes("XRP", y)
-        a4 = prvRes("BitTorrent", y)
-
-        lab1.config(text=a1)
-        lab2.config(text=a2)
-        lab3.config(text=a3)
-        lab4.config(text=a4)
+        lab1.config(text=Dogecoin)
+        lab2.config(text=Bitcoin)
+        lab3.config(text=XRP)
+        lab4.config(text=BitTorrent)
         lab5.config(text="Last CAll")
-        lab55.config(text=today)
+        lab55.config(text=sTime)
 
-        lab11.config(text=(str(float(a1) * float(txt1.get("1.0", "end-1c")))))
-        lab22.config(text=(str(float(a2) * float(txt2.get("1.0", "end-1c")))))
-        lab33.config(text=(str(float(a3) * float(txt3.get("1.0", "end-1c")))))
-        lab44.config(text=(str(float(a4) * float(txt4.get("1.0", "end-1c")))))
+        lab11.config(text=(str(float(Dogecoin) * float(txt1.get("1.0", "end-1c")))))
+        lab22.config(text=(str(float(Bitcoin) * float(txt2.get("1.0", "end-1c")))))
+        lab33.config(text=(str(float(XRP) * float(txt3.get("1.0", "end-1c")))))
+        lab44.config(text=(str(float(BitTorrent) * float(txt4.get("1.0", "end-1c")))))
 
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
@@ -252,7 +253,7 @@ import threading
 
 def f(f_stop):
     prvGetData()
-    btn2_OnClick()
+    #btn2_OnClick()
     if not f_stop.is_set():
         # call f() again in 60 seconds
         threading.Timer(600, f, [f_stop]).start()

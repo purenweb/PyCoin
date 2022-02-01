@@ -31,7 +31,7 @@ def ReadJson():
     Bitcoin=data['data'][CoinNo("Bitcoin")]['quote']['USD']['price']
     XRP=data['data'][CoinNo("XRP")]['quote']['USD']['price']
     BitTorrent=data['data'][CoinNo("BitTorrent")]['quote']['USD']['price']
-    ss=str(Dogecoin)+","+str(Bitcoin)+","+str(XRP)+","+str(BitTorrent)
+    ss=str(Dogecoin)+","+str(Bitcoin)+","+str(XRP)+","+str(BitTorrent)+","+str(Time1)
     return ss
 
 
