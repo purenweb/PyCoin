@@ -12,7 +12,11 @@ import tkinter as tk
 from tkinter import *
 
 #קריאה לפונקציה בקובץ אחר
-from DataConn import *
+#from DataConn import *
+import ReadJson
+from ReadJson import *
+aa=ReadJson()
+x1,x2,x3,x4=aa.split(",")
 
 # def PubExecQuery(sSql):
 #     IsEXE = (sSql[0:6])
@@ -41,6 +45,7 @@ Canvas.pack()
 
 global a1
 a1 = "ooo"
+
 
 
 def prvGetData():
