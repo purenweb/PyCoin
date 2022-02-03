@@ -1,8 +1,5 @@
 import json
-
 from requests import Session
-
-
 def ReadJson():
     url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
     parameters = {'start': '1', 'limit': '300', 'convert': 'USD'}
@@ -25,11 +22,12 @@ def ReadJson():
     time = dt.datetime.strptime(data['status']['timestamp'][11:19], '%H:%M:%S').time()
     datetime = dt.datetime.combine(dt.date.today(), time) + dt.timedelta(hours=2)
     sToday = datetime.strftime("%d/%m/%Y %H:%M:%S")
-    Time1 = datetime.strftime("%H:%M:%S")
+    time = datetime.strftime("%H:%M:%S")
+
 
     Dogecoin = data['data'][CoinNo("Dogecoin")]['quote']['USD']['price']
     Bitcoin = data['data'][CoinNo("Bitcoin")]['quote']['USD']['price']
     XRP = data['data'][CoinNo("XRP")]['quote']['USD']['price']
     BitTorrent = data['data'][CoinNo("BitTorrent")]['quote']['USD']['price']
-    retVal = str(Dogecoin) + "," + str(Bitcoin) + "," + str(XRP) + "," + str(BitTorrent) + "," + str(Time1) + "," + str(sToday)
+    retVal = str(Dogecoin) + "," + str(Bitcoin) + "," + str(XRP) + "," + str(BitTorrent) + "," + str(time) + "," + str(sToday)
     return retVal

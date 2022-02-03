@@ -8,7 +8,7 @@ from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 from tkinter import *
 
 # קריאה לפונקציה בקובץ אחר
-# from DataConn import *
+from DataConn import *
 import ReadJson
 from ReadJson import *
 
@@ -39,7 +39,10 @@ def prvGetData():
     try:
         GetNewData = ReadJson()
         Dogecoin, Bitcoin, XRP, BitTorrent, sTime, sDate = GetNewData.split(",")
-
+        PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('Dogecoin',1," + Dogecoin + ")")
+        PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('Bitcoin',1," + Bitcoin + ")")
+        PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('XRP',1," + XRP + ")")
+        PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('BitTorrent',1," + BitTorrent + ")")
         lab1.config(text=Dogecoin)
         lab2.config(text=Bitcoin)
         lab3.config(text=XRP)
@@ -190,7 +193,7 @@ txt5.insert(tk.END, "0")
 
 def f(f_stop):
     prvGetData()
-    # btn2_OnClick()
+    btn2_OnClick()
     if not f_stop.is_set():
         # call f() again in 60 seconds
         threading.Timer(600, f, [f_stop]).start()
