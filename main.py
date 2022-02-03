@@ -1,4 +1,5 @@
 import os
+import sys
 import threading
 import tkinter as tk
 from datetime import datetime
@@ -50,8 +51,8 @@ def prvGetData():
         lab5.config(text="Last CAll")
         lab55.config(text=sTime)
 
-        lab11.config(text=(str(float(Dogecoin) * float(txt1.get("1.0", "end-1c")))))
-        lab22.config(text=(str(float(Bitcoin) * float(txt2.get("1.0", "end-1c")))))
+        lab11.config(text=(str(float(Dogecoin) * float(txt1.get("1.0", END)))))
+        lab22.config(text=(str(float(Bitcoin) * float(txt2.get("1.0", END)))))
         lab33.config(text=(str(float(XRP) * float(txt3.get("1.0", "end-1c")))))
         lab44.config(text=(str(float(BitTorrent) * float(txt4.get("1.0", "end-1c")))))
 
@@ -59,19 +60,11 @@ def prvGetData():
         print(e)
 
 
-def btn1_OnClick():
-    prvGetData()
-
-
-def btn2_OnClick():
+def paintGraph():
     Canvas.delete("all")
     x = txt1.get("1.0", "end-1c")
     x1 = 1 * float(x)
-    # lab3.config(text=(str(x1)))
-    # Canvas.create_oval(-10, 170, 11, 171)
-    # Canvas.create_oval(-10, 190, 11, 191)
-    # Canvas.create_oval(1, 265, 11, 266, fill="#fff042")
-    #   time.sleep(600)
+
     iYTop = 2600
     iAmpli = 0.5
     iXStart = 10
@@ -103,25 +96,28 @@ def paint(event):
     w.create_oval(x1, y1, x2, y2, fill=python_green)
     w.create_oval(20, 20, 80, 80, fill=python_green)
 
+def Close():
+    root.destroy()
+    sys.exit()
 
 w = Canvas
 w.pack(expand=YES, fill=BOTH)
 w.bind("<B1-Motion>", paint)
 
 # Create a Button
-btn1 = Button(root, text='קרא נתונים !', bd='2', command=btn1_OnClick, width=10, height=1)
+btn1 = Button(root, text='קרא נתונים !', bd='2', command=prvGetData, width=10, height=1)
 btn1.place(x=100, y=400)
-btn2 = Button(root, text='סגור', bd='2', command=root.destroy, width=10, height=1)
+btn2 = Button(root, text='סגור', bd='2', command=Close, width=10, height=1)
 btn2.place(x=200, y=400)
-btn3 = Button(root, text='!', bd='2', command=btn2_OnClick, width=10, height=1)
+btn3 = Button(root, text='!', bd='2', command=paintGraph, width=10, height=1)
 btn3.place(x=300, y=400)
 
 
 def prvCB1():
     if var1.get() == 1:
-        btn1_OnClick
+        prvGetData
 
-
+# checkBox
 var1 = IntVar()
 cb1 = Checkbutton(root, text="male", variable=var1, command=prvCB1)
 cb1.place(x=200, y=200)
@@ -169,6 +165,8 @@ now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
 root.title(current_time)
 
+
+
 txt1 = Text(root, height=1, width=15)
 txt1.pack()
 txt1.place(x=xP + 100, y=yP)
@@ -193,7 +191,7 @@ txt5.insert(tk.END, "0")
 
 def f(f_stop):
     prvGetData()
-    btn2_OnClick()
+    paintGraph()
     if not f_stop.is_set():
         # call f() again in 60 seconds
         threading.Timer(600, f, [f_stop]).start()
