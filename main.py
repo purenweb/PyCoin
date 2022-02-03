@@ -40,10 +40,13 @@ def prvGetData():
     try:
         GetNewData = ReadJson()
         Dogecoin, Bitcoin, XRP, BitTorrent, sTime, sDate = GetNewData.split(",")
-        PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('Dogecoin',1," + Dogecoin + ")")
-        PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('Bitcoin',1," + Bitcoin + ")")
+        PubExecute(
+            "INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('Dogecoin',1," + Dogecoin + ")")
+        PubExecute(
+            "INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('Bitcoin',1," + Bitcoin + ")")
         PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('XRP',1," + XRP + ")")
-        PubExecute("INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('BitTorrent',1," + BitTorrent + ")")
+        PubExecute(
+            "INSERT INTO [dbo].[T_CoinNew] ([CoinDesc],[CoinNo],[CoinPrice]) VALUES ('BitTorrent',1," + BitTorrent + ")")
         lab1.config(text=Dogecoin)
         lab2.config(text=Bitcoin)
         lab3.config(text=XRP)
@@ -62,13 +65,10 @@ def prvGetData():
 
 def paintGraph():
     Canvas.delete("all")
-    x = txt1.get("1.0", "end-1c")
-    x1 = 1 * float(x)
-
     iYTop = 2600
     iAmpli = 0.5
     iXStart = 10
-    # PubExecuteScalar("SELECT  CoinPrice * 7524.1702 AS Expr1  FROM dbo.T_CoinNew WHERE (CoinDesc = N'Dogecoin') ")
+
     data = PubExecuteScalar(
         "SELECT   TOP (100) PERCENT  CoinPrice * 7524.1702 AS Expr1,RowNo FROM (SELECT TOP (5000) RowNo, CoinDesc, CoinNo, CoinPrice, InDate FROM  dbo.T_CoinNew ORDER BY RowNo DESC) AS derivedtbl_1   WHERE (CoinDesc = N'Dogecoin') ORDER BY RowNo ")
 
@@ -79,13 +79,64 @@ def paintGraph():
     for row in data:
         print("Id = ", row[0], )
         i = i + 1
-        y = (iYTop - (row[0] / (iAmpli))) * 1.2
+        y = (iYTop - (row[0] / iAmpli)) * 1.2
         if ixLast == 0: ixLast = i * iXSpace
         if iyLast == 0: iyLast = y
 
         Canvas.create_line(ixLast, iyLast, i * iXSpace + 1, y + 1, fill="#f00042")
         ixLast = i * iXSpace
         iyLast = y
+    data = PubExecuteScalar(
+        "SELECT   TOP (100) PERCENT  CoinPrice * 1750 AS Expr1,RowNo FROM (SELECT TOP (5000) RowNo, CoinDesc, CoinNo, CoinPrice, InDate FROM  dbo.T_CoinNew ORDER BY RowNo DESC) AS derivedtbl_1   WHERE (CoinDesc = N'XRP') ORDER BY RowNo ")
+
+    i = iXStart
+    ixLast = 0
+    iyLast = 0
+    iXSpace = 1.2
+    for row in data:
+        print("Id = ", row[0], )
+        i = i + 1
+        y = (iYTop - (row[0] / iAmpli)) * 1.2
+        if ixLast == 0: ixLast = i * iXSpace
+        if iyLast == 0: iyLast = y
+
+        Canvas.create_line(ixLast, iyLast, i * iXSpace + 1, y + 1, fill="#660042")
+        ixLast = i * iXSpace
+        iyLast = y
+    data = PubExecuteScalar(
+        "SELECT   TOP (100) PERCENT  CoinPrice * 0.029 AS Expr1,RowNo FROM (SELECT TOP (5000) RowNo, CoinDesc, CoinNo, CoinPrice, InDate FROM  dbo.T_CoinNew ORDER BY RowNo DESC) AS derivedtbl_1   WHERE (CoinDesc = N'Bitcoin') ORDER BY RowNo ")
+
+    i = iXStart
+    ixLast = 0
+    iyLast = 0
+    iXSpace = 1.2
+    for row in data:
+        print("Id = ", row[0], )
+        i = i + 1
+        y = (iYTop - (row[0] / iAmpli)) * 1.2
+        if ixLast == 0: ixLast = i * iXSpace
+        if iyLast == 0: iyLast = y
+
+        Canvas.create_line(ixLast, iyLast, i * iXSpace + 1, y + 1, fill="#ABAB57")
+        ixLast = i * iXSpace
+        iyLast = y
+    # data = PubExecuteScalar(
+    #     "SELECT   TOP (100) PERCENT  CoinPrice * 460000 AS Expr1,RowNo FROM (SELECT TOP (6690) RowNo, CoinDesc, CoinNo, CoinPrice, InDate FROM  dbo.T_CoinNew ORDER BY RowNo DESC) AS derivedtbl_1   WHERE (CoinDesc = N'BitTorrent') AND (CoinPrice < 1) AND (CoinPrice > 0.001) ORDER BY RowNo ")
+    #
+    # i = iXStart
+    # ixLast = 0
+    # iyLast = 0
+    # iXSpace = 1.2
+    # for row in data:
+    #     print("Id = ", row[0], )
+    #     i = i + 1
+    #     y = (iYTop - (row[0] / iAmpli*0.9)) * 1.2
+    #     if ixLast == 0: ixLast = i * iXSpace
+    #     if iyLast == 0: iyLast = y
+    #
+    #     Canvas.create_line(ixLast, iyLast, i * iXSpace + 1, y + 1, fill="#325DA8")
+    #     ixLast = i * iXSpace
+    #     iyLast = y
 
 
 def paint(event):
@@ -96,9 +147,11 @@ def paint(event):
     w.create_oval(x1, y1, x2, y2, fill=python_green)
     w.create_oval(20, 20, 80, 80, fill=python_green)
 
+
 def Close():
     root.destroy()
     sys.exit()
+
 
 w = Canvas
 w.pack(expand=YES, fill=BOTH)
@@ -116,6 +169,7 @@ btn3.place(x=300, y=400)
 def prvCB1():
     if var1.get() == 1:
         prvGetData
+
 
 # checkBox
 var1 = IntVar()
@@ -164,8 +218,6 @@ now = datetime.now()
 
 current_time = now.strftime("%H:%M:%S")
 root.title(current_time)
-
-
 
 txt1 = Text(root, height=1, width=15)
 txt1.pack()
