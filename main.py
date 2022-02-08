@@ -66,7 +66,7 @@ def prvGetData():
 def paintGraph():
     Canvas.delete("all")
     iYTop = 2600
-    iAmpli = 0.53
+    iAmpli = 0.54
     iXStart = 10
 
     data = PubExecuteScalar(
@@ -87,7 +87,7 @@ def paintGraph():
         ixLast = i * iXSpace
         iyLast = y
     data = PubExecuteScalar(
-        "SELECT   TOP (100) PERCENT  CoinPrice * 1750 AS Expr1,RowNo FROM (SELECT TOP (5000) RowNo, CoinDesc, CoinNo, CoinPrice, InDate FROM  dbo.T_CoinNew ORDER BY RowNo DESC) AS derivedtbl_1   WHERE (CoinDesc = N'XRP') ORDER BY RowNo ")
+        "SELECT   TOP (100) PERCENT  CoinPrice * 1500 AS Expr1,RowNo FROM (SELECT TOP (5000) RowNo, CoinDesc, CoinNo, CoinPrice, InDate FROM  dbo.T_CoinNew ORDER BY RowNo DESC) AS derivedtbl_1   WHERE (CoinDesc = N'XRP') ORDER BY RowNo ")
 
     i = iXStart
     ixLast = 0
@@ -96,7 +96,7 @@ def paintGraph():
     for row in data:
         print("Id = ", row[0], )
         i = i + 1
-        y = (iYTop - (row[0] / iAmpli)) * 1.2
+        y = (iYTop - (row[0] / iAmpli*1.005)) * 1.2
         if ixLast == 0: ixLast = i * iXSpace
         if iyLast == 0: iyLast = y
 
