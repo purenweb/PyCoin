@@ -65,8 +65,8 @@ def prvGetData():
 
 def paintGraph():
     Canvas.delete("all")
-    iYTop = 1800
-    iAmpli = 0.8
+    iYTop = float(txt5.get("1.0", END))
+    iAmpli = float(txt6.get("1.0", END))
     iXStart = 10
 
     data = PubExecuteScalar(
@@ -234,12 +234,15 @@ txt4.place(x=xP + 100, y=yP + yS * 3)
 txt5 = Text(root, height=1, width=15)
 txt5.pack()
 txt5.place(x=xP + 100, y=yP + yS * 4)
+txt6 = Text(root, height=1, width=15)
+txt6.pack()
+txt6.place(x=xP + 100, y=yP + yS * 5)
 txt1.insert(tk.END, "7524.1702")
 txt2.insert(tk.END, "0")
 txt3.insert(tk.END, "0")
 txt4.insert(tk.END, "0")
-txt5.insert(tk.END, "0")
-
+txt5.insert(tk.END, "1800")
+txt6.insert(tk.END, "0.8")
 
 def f(f_stop):
     prvGetData()
