@@ -65,8 +65,8 @@ def prvGetData():
 
 def paintGraph():
     Canvas.delete("all")
-    iYTop = 2600
-    iAmpli = 0.54
+    iYTop = 1800
+    iAmpli = 0.8
     iXStart = 10
 
     data = PubExecuteScalar(
